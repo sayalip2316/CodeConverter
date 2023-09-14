@@ -3,6 +3,8 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors=require("cors");
+const dotenv=require("dotenv")
+dotenv.config()
 
 // Middleware to parse JSON
 app.use(express.json());
@@ -12,7 +14,7 @@ app.use(cors());
 app.post('/convert', async (req, res) => {
   try {
     const { code, language } = req.body;
-    const apiKey = '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'; // Replace with your ChatGPT API key
+    const apiKey =process.env.api_key; // Replace with your ChatGPT API key
     const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-002/completions', {
       prompt: `Translate the following ${language} code: ${code}`,
       max_tokens: 50,
@@ -45,7 +47,7 @@ app.post('/convert', async (req, res) => {
 app.post('/debug', async (req, res) => {
   try {
     const { code} = req.body;
-    const apiKey = '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'; // Replace with your ChatGPT API key
+    const apiKey = process.env.api_key; // Replace with your ChatGPT API key
     const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-002/completions', {
       prompt: `Debug the following code:-  ${code} \n please check if there is any error and also correct it. also if it's correct provide steps what code is doing and how we can improve it`,
       max_tokens: 50,
@@ -67,7 +69,7 @@ app.post('/debug', async (req, res) => {
 app.post('/quality', async (req, res) => {
   try {
     const { code} = req.body;
-    const apiKey = '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'; // Replace with your ChatGPT API key
+    const apiKey = process.env.api_key; // Replace with your ChatGPT API key
     const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-002/completions', {
       prompt: `Check the quality of the following code:-  ${code} \n please provide detailed info and also provide some tips to improve. provide in points`,
       max_tokens: 50,
